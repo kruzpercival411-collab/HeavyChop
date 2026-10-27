@@ -43,6 +43,7 @@ There are 7 factory presets (dropdown at the top right, also exposed as host pro
 2. The workflow `.github/workflows/build-windows.yml` runs automatically.
 3. Open the run under **Actions** and download the **HeavyChop-VST3-Windows** artifact.
 4. Unzip it and copy the `HeavyChop.vst3` folder to `C:\Program Files\Common Files\VST3\`.
+5. In Ableton: Preferences → Plug-ins → turn on **Use VST3 Plug-in System Folders**, then Rescan. It appears in the browser under Plug-ins → VST3 → HeavyChop.
 
 ### Option B: local build
 Requirements: [Visual Studio 2022](https://visualstudio.microsoft.com/) (with "Desktop development with C++"), [CMake](https://cmake.org/) 3.22+ and Git.

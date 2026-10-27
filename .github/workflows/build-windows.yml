@@ -34,7 +34,8 @@ jobs:
         uses: actions/upload-artifact@v5
         with:
           name: HeavyChop-VST3-Windows
-          path: build/HeavyChop_artefacts/Release/VST3/HeavyChop.vst3
+          # upload the parent folder so the zip contains the HeavyChop.vst3 bundle itself, not just its contents
+          path: build/HeavyChop_artefacts/Release/VST3/
 
       - name: Upload Standalone
         uses: actions/upload-artifact@v5
