@@ -48,7 +48,7 @@ There are 7 factory presets (dropdown at the top right, also exposed as host pro
 Requirements: [Visual Studio 2022](https://visualstudio.microsoft.com/) (with "Desktop development with C++"), [CMake](https://cmake.org/) 3.22+ and Git.
 
 ```bat
-cmake -B build -G "Visual Studio 17 2022" -A x64
+cmake -B build -A x64
 cmake --build build --config Release
 ```
 

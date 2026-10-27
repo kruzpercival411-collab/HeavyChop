@@ -8,22 +8,36 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
+      # No -G: CMake picks whichever Visual Studio the runner has installed.
+      # On failure, the last lines of output are posted as annotations so they show on the run page.
       - name: Configure
-        run: cmake -B build -G "Visual Studio 17 2022" -A x64
+        shell: pwsh
+        run: |
+          cmake -B build -A x64 *>&1 | Tee-Object -FilePath configure.log
+          if ($LASTEXITCODE -ne 0) {
+            Get-Content configure.log -Tail 25 | ForEach-Object { Write-Output "::error title=Configure::$_" }
+            exit 1
+          }
 
       - name: Build
-        run: cmake --build build --config Release --parallel
+        shell: pwsh
+        run: |
+          cmake --build build --config Release --parallel *>&1 | Tee-Object -FilePath build.log
+          if ($LASTEXITCODE -ne 0) {
+            Select-String -Path build.log -Pattern 'error' | Select-Object -First 25 | ForEach-Object { Write-Output "::error title=Build::$($_.Line)" }
+            exit 1
+          }
 
       - name: Upload VST3
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: HeavyChop-VST3-Windows
           path: build/HeavyChop_artefacts/Release/VST3/HeavyChop.vst3
 
       - name: Upload Standalone
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: HeavyChop-Standalone-Windows
           path: build/HeavyChop_artefacts/Release/Standalone/HeavyChop.exe
